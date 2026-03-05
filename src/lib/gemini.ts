@@ -1,6 +1,8 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { UserProfile, UserProgress } from '../types';
 
+const GEMINI_MODEL = GEMINI_MODEL;
+
 let geminiClient: GoogleGenerativeAI | null = null;
 
 export function initGemini() {
@@ -38,7 +40,7 @@ export async function geminiChat(
   }
 
   const model = geminiClient!.getGenerativeModel({
-    model: 'gemini-2.0-flash-exp',
+    model: GEMINI_MODEL,
     systemInstruction: buildGeminiSystemPrompt(user, progress),
   });
 
@@ -64,7 +66,7 @@ export async function geminiChat(
 export async function geminiGenerateInsight(user: UserProfile, progress: UserProgress): Promise<string> {
   if (!geminiClient) initGemini();
 
-  const model = geminiClient!.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+  const model = geminiClient!.getGenerativeModel({ model: GEMINI_MODEL });
   const result = await model.generateContent(
     `Give ${user.name} one powerful, actionable insight for someone studying ${user.field} at ${user.level} level. Under 70 words. Tied to a real company or deal. Start directly — no preamble.`
   );
@@ -77,7 +79,7 @@ export async function geminiGenerateQuiz(
 ): Promise<{ question: string; options: string[]; answer: number; explanation: string }[]> {
   if (!geminiClient) initGemini();
 
-  const model = geminiClient!.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+  const model = geminiClient!.getGenerativeModel({ model: GEMINI_MODEL });
   const result = await model.generateContent(
     `Create 3 multiple-choice quiz questions about "${topic}" for a ${level} level learner. Return ONLY a valid JSON array: [{"question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":0,"explanation":"..."}]. Use real company examples. answer is the 0-indexed correct option.`
   );
@@ -98,7 +100,7 @@ export async function geminiExplainTopic(
   if (!geminiClient) initGemini();
 
   const model = geminiClient!.getGenerativeModel({
-    model: 'gemini-2.0-flash-exp',
+    model: GEMINI_MODEL,
     systemInstruction: buildGeminiSystemPrompt(user, { completedTopics: [], completedModules: [], completedCases: [], totalHoursStudied: 0, streak: 0, lastActive: '', skills: {}, xp: 0 }),
   });
 
