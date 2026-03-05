@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { UserProfile, UserProgress } from '../types';
 
-const GEMINI_MODEL = GEMINI_MODEL;
+const GEMINI_MODEL = 'gemini-2.0-flash';
 
 let geminiClient: GoogleGenerativeAI | null = null;
 

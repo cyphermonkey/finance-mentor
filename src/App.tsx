@@ -1,13 +1,10 @@
-import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAppStore } from './store/appStore';
-import { initClaude } from './lib/claude';
 import { initGemini } from './lib/gemini';
 import Layout from './components/Layout';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
 import LearningHub from './pages/LearningHub';
-import AITutor from './pages/AITutor';
 import CaseStudies from './pages/CaseStudies';
 import Opportunities from './pages/Opportunities';
 import Skills from './pages/Skills';
@@ -18,12 +15,6 @@ initGemini();
 
 export default function App() {
   const user = useAppStore((s) => s.user);
-
-  useEffect(() => {
-    if (user?.apiKey) {
-      initClaude(user.apiKey);
-    }
-  }, [user?.apiKey]);
 
   if (!user) {
     return (
@@ -43,7 +34,6 @@ export default function App() {
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/learn" element={<LearningHub />} />
-            <Route path="/tutor" element={<AITutor />} />
             <Route path="/cases" element={<CaseStudies />} />
             <Route path="/opportunities" element={<Opportunities />} />
             <Route path="/skills" element={<Skills />} />

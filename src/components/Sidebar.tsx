@@ -1,14 +1,13 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
-  LayoutDashboard, BookOpen, MessageSquare, Briefcase,
-  Target, BarChart3, Settings, LogOut, TrendingUp, Zap
+  LayoutDashboard, BookOpen, Briefcase,
+  Target, BarChart3, Settings, LogOut, Zap
 } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/learn', icon: BookOpen, label: 'Learning Hub' },
-  { to: '/tutor', icon: MessageSquare, label: 'AI Tutor' },
   { to: '/cases', icon: Briefcase, label: 'Case Studies' },
   { to: '/opportunities', icon: Target, label: 'Opportunities' },
   { to: '/skills', icon: BarChart3, label: 'Skills Tracker' },
@@ -146,18 +145,6 @@ export default function Sidebar() {
       </div>
 
       {/* Live indicator */}
-      <div
-        className="mx-3 mb-3 px-3 py-2 rounded-lg flex items-center gap-2"
-        style={{ background: 'rgba(0,196,180,0.06)', border: '1px solid rgba(0,196,180,0.12)' }}
-      >
-        <div className="live-dot flex-shrink-0" />
-        <div>
-          <div className="text-xs font-medium" style={{ color: 'var(--teal)', fontFamily: 'var(--font-mono)' }}>
-            AI Tutor Online
-          </div>
-          <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Claude Opus 4</div>
-        </div>
-      </div>
     </aside>
   );
 }
