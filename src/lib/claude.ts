@@ -1,10 +1,11 @@
-import Anthropic from '@anthropic-ai/sdk';
+import type Anthropic from '@anthropic-ai/sdk';
 import type { UserProfile, UserProgress } from '../types';
 
 let client: Anthropic | null = null;
 
-export function initClaude(apiKey: string) {
-  client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true });
+export async function initClaude(apiKey: string) {
+  const { default: AnthropicSDK } = await import('@anthropic-ai/sdk');
+  client = new AnthropicSDK({ apiKey, dangerouslyAllowBrowser: true });
 }
 
 export function getClient() {
