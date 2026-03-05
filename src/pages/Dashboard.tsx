@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, BookOpen, MessageSquare, Briefcase, Zap, Clock, Target, ChevronRight, ArrowUpRight, Lightbulb } from 'lucide-react';
+import { BookOpen, Briefcase, Zap, Clock, Target, ChevronRight, ArrowUpRight, Lightbulb, BarChart3 } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
-import { generateDailyInsight } from '../lib/claude';
+import { geminiGenerateInsight } from '../lib/gemini';
 import { curriculum } from '../data/curriculum';
 import { caseStudies } from '../data/caseStudies';
 
@@ -49,9 +49,9 @@ const quickStats = (progress: UserProgress, user: UserProfile) => [
 
 const quickActions = [
   { label: 'Continue Learning', desc: 'Pick up where you left off', to: '/learn', icon: BookOpen, color: 'var(--gold)' },
-  { label: 'Ask AI Tutor', desc: 'Get answers to any question', to: '/tutor', icon: MessageSquare, color: 'var(--teal)' },
   { label: 'Solve a Case', desc: 'Practice real-world scenarios', to: '/cases', icon: Briefcase, color: '#3D6FE8' },
-  { label: 'Career Paths', desc: 'Explore your options', to: '/opportunities', icon: Target, color: '#8B5CF6' },
+  { label: 'Career Paths', desc: 'Explore opportunities', to: '/opportunities', icon: Target, color: '#8B5CF6' },
+  { label: 'Skills Tracker', desc: 'Track your progress', to: '/skills', icon: BarChart3, color: 'var(--teal)' },
 ];
 
 export default function Dashboard() {
@@ -63,7 +63,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!user) return;
     setInsightLoading(true);
-    generateDailyInsight(user, progress)
+    geminiGenerateInsight(user, progress)
       .then((text) => {
         setInsight(text);
         setInsightLoading(false);
@@ -188,11 +188,11 @@ export default function Dashboard() {
           )}
           <div className="mt-4 pt-3 flex items-center gap-2 border-t" style={{ borderColor: 'var(--border)' }}>
             <button
-              onClick={() => navigate('/tutor')}
+              onClick={() => navigate('/learn')}
               className="btn-ghost text-xs flex items-center gap-1.5 py-1.5 px-3"
             >
-              <MessageSquare size={12} />
-              Ask AI to explain this
+              <BookOpen size={12} />
+              Explore curriculum
             </button>
           </div>
         </div>

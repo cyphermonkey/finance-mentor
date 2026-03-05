@@ -7,17 +7,19 @@ import { curriculum, getModulesByTrack } from '../data/curriculum';
 import type { Module, Topic } from '../types';
 
 const trackTabs = [
-  { id: 'finance', label: 'Finance', color: 'var(--gold)' },
-  { id: 'consulting', label: 'Consulting', color: '#8B5CF6' },
-  { id: 'quant', label: 'Quant Finance', color: '#7C3AED' },
-  { id: 'skills', label: 'Essential Skills', color: 'var(--teal)' },
-  { id: 'realestate', label: 'Real Estate', color: '#E8572A' },
-  { id: 'economics', label: 'Economics', color: '#2A9D8F' },
-  { id: 'accounting', label: 'Accounting & Tax', color: '#457B9D' },
-  { id: 'law', label: 'Law & Legal', color: '#6D3B8C' },
+  { id: 'finance', label: 'Finance', icon: '📈', color: 'var(--gold)' },
+  { id: 'consulting', label: 'Consulting', icon: '🎯', color: '#8B5CF6' },
+  { id: 'quant', label: 'Quant', icon: '📐', color: '#7C3AED' },
+  { id: 'tech', label: 'Technology', icon: '💻', color: '#3776AB' },
+  { id: 'entrepreneurship', label: 'Startups', icon: '🚀', color: '#E85D5D' },
+  { id: 'skills', label: 'Skills', icon: '⚡', color: 'var(--teal)' },
+  { id: 'realestate', label: 'Real Estate', icon: '🏢', color: '#E8572A' },
+  { id: 'economics', label: 'Economics', icon: '🌐', color: '#2A9D8F' },
+  { id: 'accounting', label: 'Accounting', icon: '🧾', color: '#457B9D' },
+  { id: 'law', label: 'Law', icon: '⚖️', color: '#6D3B8C' },
 ];
 
-type ActiveTrack = 'finance' | 'consulting' | 'quant' | 'skills' | 'realestate' | 'economics' | 'accounting' | 'law';
+type ActiveTrack = 'finance' | 'consulting' | 'quant' | 'tech' | 'entrepreneurship' | 'skills' | 'realestate' | 'economics' | 'accounting' | 'law';
 
 export default function LearningHub() {
   const { progress, completeTopicId, completeModuleId } = useAppStore();
@@ -31,6 +33,8 @@ export default function LearningHub() {
     finance: 'var(--gold)',
     consulting: '#8B5CF6',
     quant: '#7C3AED',
+    tech: '#3776AB',
+    entrepreneurship: '#E85D5D',
     skills: 'var(--teal)',
     realestate: '#E8572A',
     economics: '#2A9D8F',
@@ -79,26 +83,43 @@ export default function LearningHub() {
             Your Curriculum
           </h1>
 
-          {/* Track tabs */}
+          {/* Track tabs — scrollable */}
           <div
-            className="flex gap-1 p-1 rounded-xl"
-            style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
+            className="flex gap-1.5 overflow-x-auto pb-1"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {trackTabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => { setActiveTrack(tab.id as ActiveTrack); setExpandedModule(null); setActiveTopic(null); }}
-                className="flex-1 py-2 text-xs font-semibold rounded-lg transition-all duration-200"
-                style={{
-                  background: activeTrack === tab.id ? 'var(--bg-card)' : 'transparent',
-                  color: activeTrack === tab.id ? tab.color : 'var(--text-muted)',
-                  border: activeTrack === tab.id ? `1px solid ${tab.color}20` : '1px solid transparent',
-                  fontFamily: 'var(--font-body)',
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
+            {trackTabs.map((tab) => {
+              const isActive = activeTrack === tab.id;
+              const moduleCount = curriculum.filter(m => m.track === tab.id).length;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => { setActiveTrack(tab.id as ActiveTrack); setExpandedModule(null); setActiveTopic(null); }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-200 flex-shrink-0"
+                  style={{
+                    background: isActive ? tab.color + '15' : 'var(--bg-elevated)',
+                    color: isActive ? tab.color : 'var(--text-muted)',
+                    border: `1px solid ${isActive ? tab.color + '35' : 'var(--border)'}`,
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 12,
+                    fontWeight: isActive ? 600 : 500,
+                  }}
+                >
+                  <span>{tab.icon}</span>
+                  <span>{tab.label}</span>
+                  <span
+                    className="px-1 rounded text-xs font-mono"
+                    style={{
+                      background: isActive ? tab.color + '20' : 'var(--bg-card)',
+                      color: isActive ? tab.color : 'var(--text-muted)',
+                      fontSize: 10,
+                    }}
+                  >
+                    {moduleCount}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -361,7 +382,7 @@ export default function LearningHub() {
                   >
                     <Lightbulb size={16} color="var(--gold)" className="flex-shrink-0" />
                     <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                      Not sure about an answer? Ask your AI Tutor for a step-by-step explanation with real examples.
+                      Work through each question before checking the answer. Real interview questions are harder — use these to identify gaps, then re-read the topic content.
                     </p>
                   </div>
                 </div>
