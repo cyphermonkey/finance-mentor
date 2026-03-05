@@ -2,6 +2,7 @@ import type { Module, Track } from '../types';
 import { newModules } from './newModules';
 import { quantCurriculum } from './quantCurriculum';
 import { techEntrepModules } from './techEntrepModules';
+import { sourceModules } from './sourceModules';
 
 const baseCurriculum: Module[] = [
   // ─── FINANCE TRACK ───────────────────────────────────────────────
@@ -2048,7 +2049,7 @@ Even non-EU companies serving EU customers must comply. US tech companies (Googl
   },
 ];
 
-export const curriculum: Module[] = [...baseCurriculum, ...newModules, ...quantCurriculum, ...techEntrepModules];
+export const curriculum: Module[] = [...baseCurriculum, ...newModules, ...quantCurriculum, ...techEntrepModules, ...sourceModules];
 
 export function getModulesByTrack(track: Track) {
   return curriculum.filter((m) => m.track === track);
